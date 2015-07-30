@@ -1,24 +1,24 @@
 let states = [];
 
-let stringify = state => `${state.m},${state.c},${state.b === 1 ? 'b' : 'x'}`;
+let stringify = state => `${state.m},${state.c},${state.b}`;
 
 // Generate all valid states
 for (let m = 0; m <= 3; ++m) {
   for (let c = 0; c <= 3; ++c) {
-    for (let b = 1; b <= 2; ++b) {
+    ['b', 'x'].forEach(b => {
       if (m === c || m === 0 || m === 3) {
-        if (!(m === 0 && c === 0 && b === 1) && !(m === 3 && c === 3 && b === 2)) {
+        if (!(m === 0 && c === 0 && b === 'b') && !(m === 3 && c === 3 && b === 'x')) {
           states.push({ m, c, b });
         }
       }
-    }
+    });
   }
 }
 
 states.reverse().forEach(state => {
   state.descendents = states.filter(state2 => {
-    let deltaM = state.b === 1 ? (state.m - state2.m) : (state2.m - state.m);
-    let deltaC = state.b === 1 ? (state.c - state2.c) : (state2.c - state.c);
+    let deltaM = state.b === 'b' ? (state.m - state2.m) : (state2.m - state.m);
+    let deltaC = state.b === 'b' ? (state.c - state2.c) : (state2.c - state.c);
     let deltaP = deltaM + deltaC;
     if (state.b === state2.b) {
       // The boat must move
