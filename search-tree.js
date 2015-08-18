@@ -11,9 +11,9 @@ export default class SearchTree {
     return false;
   }
 
-  run(initialState) {
+  run(initialStateData) {
     this.states = new Map();
-    this.generateStates(initialState);
+    this.generateStates(initialStateData);
 
     for (let [hash, state] of this.states) {
       console.log(`${hash} => ${state.descendents.map(state => this.constructor.hash(state)).join(' | ')}`);
