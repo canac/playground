@@ -11,13 +11,20 @@ export default class SearchTree {
     return false;
   }
 
-  run(initialStateData) {
+  generateTree(initialStateData) {
     this.states = new Map();
     this.generateStates(initialStateData);
+  }
 
+  printTree() {
     for (let [hash, state] of this.states) {
       console.log(`${hash} => ${state.descendents.map(state => this.constructor.hash(state)).join(' | ')}`);
     }
+  }
+
+  run(initialStateData) {
+    this.generateTree(initialStateData);
+    this.printTree();
   }
 
   generateDescendents(state, add) {

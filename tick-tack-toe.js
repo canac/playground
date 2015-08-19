@@ -58,7 +58,7 @@ class TickTackToe extends SearchTree {
 }
 
 const game = new TickTackToe();
-game.run(TickTackToe.makeState(Array(9).fill(0), 1));
+game.generateTree(TickTackToe.makeState(Array(9).fill(0), 1));
 
 // Calculate and return the minimax value of the current node
 // Use max if max is true, otherwise use min
