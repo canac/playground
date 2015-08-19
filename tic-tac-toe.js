@@ -1,6 +1,6 @@
 import GameTree from './game-tree.js';
 
-class TickTackToe extends GameTree {
+class TicTacToe extends GameTree {
   static hash(state) {
     return state.data.grid.join('');
   }
@@ -53,6 +53,6 @@ class TickTackToe extends GameTree {
   }
 }
 
-const game = new TickTackToe();
-game.generateTree(TickTackToe.makeStateData(Array(9).fill(0), 1));
+const game = new TicTacToe();
+game.generateTree(TicTacToe.makeStateData(Array(9).fill(0), 1));
 console.log(`Root node minimax value is ${game.minimax()}`);
