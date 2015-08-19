@@ -34,6 +34,7 @@ export default class SearchTree {
   getState(stateData) {
     let state = {
       descendents: [],
+      instances: 1,
       expanded: false,
       data: stateData,
     };
@@ -42,6 +43,7 @@ export default class SearchTree {
     // Record this state if it has not already been seen
     let existingState = this.states.get(hash);
     if (existingState) {
+      ++existingState.instances;
       return existingState;
     } else {
       this.states.set(hash, state);
