@@ -30,10 +30,11 @@ export default class SearchTree {
   generateDescendents(state, add) {
   }
 
-  generateStates(stateData) {
-    // Create a new state instance with the given state data
+  // Lookup or create the state from the provided state data
+  getState(stateData) {
     let state = {
       descendents: [],
+      expanded: false,
       data: stateData,
     };
     let hash = this.constructor.hash(state);
@@ -44,7 +45,19 @@ export default class SearchTree {
       return existingState;
     } else {
       this.states.set(hash, state);
+      return state;
     }
+  }
+
+  generateStates(stateData) {
+    let state = this.getState(stateData);
+    if (state.expanded) {
+      // This node has already been expanded, so ignore it
+      return state;
+    }
+
+    // Mark the node as expanded
+    state.expanded = true;
 
     // This is a terminal state, so abort
     if (this.constructor.isTerminal(state)) {
