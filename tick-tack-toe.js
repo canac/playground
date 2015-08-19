@@ -1,6 +1,6 @@
-import SearchTree from './search-tree.js';
+import GameTree from './game-tree.js';
 
-class TickTackToe extends SearchTree {
+class TickTackToe extends GameTree {
   static hash(state) {
     return state.data.grid.join('');
   }
@@ -39,10 +39,6 @@ class TickTackToe extends SearchTree {
     return grid.every(cell => cell !== 0) ? 0 : null;
   }
 
-  static isTerminal(state) {
-    return this.utility(state) !== null;
-  }
-
   generateDescendents(state, add) {
     const { grid, currentPlayer } = state.data;
     const nextPlayer = currentPlayer === 1 ? 2 : 1;
@@ -59,21 +55,4 @@ class TickTackToe extends SearchTree {
 
 const game = new TickTackToe();
 game.generateTree(TickTackToe.makeStateData(Array(9).fill(0), 1));
-
-// Calculate and return the minimax value of the current node
-// Use max if max is true, otherwise use min
-const calculateMinimax = function(node, max) {
-  const utility = game.constructor.utility(node);
-  if (utility !== null) {
-    // This is a terminal node, so return the utility directly
-    return utility;
-  }
-
-  // Run max or min over the node's descendents
-  const func = max ? Math.max : Math.min;
-  return func(...node.descendents.map(node => calculateMinimax(node, !max)));
-};
-
-// Calculate the minimax value of the root node
-const [rootNode] = game.states.values();
-console.log(`Root node minimax value is ${calculateMinimax(rootNode, true)}`);
+console.log(`Root node minimax value is ${game.minimax()}`);
