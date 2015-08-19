@@ -5,7 +5,7 @@ class Puzzle extends SearchTree {
     return `${state.data.a}${state.data.b}${state.data.turn}`;
   }
 
-  static makeState(a, b, turn) {
+  static makeStateData(a, b, turn) {
     return { a, b, turn };
   }
 
@@ -66,4 +66,4 @@ class Puzzle extends SearchTree {
 }
 
 let puzzle = new Puzzle();
-puzzle.run(Puzzle.makeState(1, 4, 'a'));
+puzzle.run(Puzzle.makeStateData(1, 4, 'a'));

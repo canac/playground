@@ -5,7 +5,7 @@ class Puzzle extends SearchTree {
     return state.data.order.join();
   }
 
-  static makeState(a, b, c, d) {
+  static makeStateData(a, b, c, d) {
     return { order: [a, b, c, d] };
   }
 
@@ -33,4 +33,4 @@ class Puzzle extends SearchTree {
 }
 
 let puzzle = new Puzzle();
-puzzle.run(Puzzle.makeState(1, 2, 3, 0));
+puzzle.run(Puzzle.makeStateData(1, 2, 3, 0));

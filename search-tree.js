@@ -3,7 +3,7 @@ export default class SearchTree {
     return JSON.stringify(state.data);
   }
 
-  static makeState(...args) {
+  static makeStateData(...args) {
     return args;
   }
 
@@ -52,7 +52,7 @@ export default class SearchTree {
     }
 
     let add = (...args) => {
-      state.descendents.push(this.generateStates(this.constructor.makeState(...args)));
+      state.descendents.push(this.generateStates(this.constructor.makeStateData(...args)));
     };
 
     this.generateDescendents(state, add);
