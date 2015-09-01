@@ -9,9 +9,13 @@ const clauses = new Set(expression.split(' & ').map(clause =>
   }))
 ));
 
+function serializeLiteral(literal) {
+  return `${literal.value ? '' : '!'}${literal.symbol}`;
+}
+
 function serializeClauses(clauses) {
   return [...clauses].map(literals =>
-    `(${[...literals].map(literal => `${literal.value ? '' : '!'}${literal.symbol}`).join(' | ')})`
+    `(${[...literals].map(literal => serializeLiteral(literal)).join(' | ')})`
   ).join(' & ');
 }
 
@@ -99,6 +103,7 @@ function ddpl(clauses, symbols, model, depth=0) {
 
   const pureSymbol = findPureSymbol(symbols, clauses, model);
   if (pureSymbol !== null) {
+    console.log(`Found pure symbol ${serializeLiteral(pureSymbol)}`);
     const newSymbols = new Set(symbols);
     newSymbols.delete(pureSymbol.symbol);
     const newModel = new Map(model);
@@ -108,6 +113,7 @@ function ddpl(clauses, symbols, model, depth=0) {
 
   const unitClause = findUnitClause(symbols, clauses, model);
   if (unitClause !== null) {
+    console.log(`Found unit clause ${serializeLiteral(unitClause)}`);
     const newSymbols = new Set(symbols);
     newSymbols.delete(unitClause.symbol);
     const newModel = new Map(model);
@@ -117,11 +123,15 @@ function ddpl(clauses, symbols, model, depth=0) {
 
   const [symbol, rest] = firstRest(...symbols);
   const newSymbols = new Set(rest);
-  const newModel1 = new Map(model);
-  newModel1.set(symbol, true);
-  const newModel2 = new Map(model);
-  newModel2.set(symbol, false);
-  return ddpl(clauses, newSymbols, newModel1, depth + 1) || ddpl(clauses, newSymbols, newModel2, depth + 1);
+  const tryValue = value => {
+    console.log(`Trying ${symbol} = ${value}`);
+    const newModel = new Map(model);
+    newModel.set(symbol, value);
+    return ddpl(clauses, newSymbols, newModel, depth + 1);
+  };
+
+  return tryValue(true) || tryValue(false);
 }
 
-console.log(ddpl(clauses, new Set('ABCDEF'), new Map()));
+const success = ddpl(clauses, new Set('ABCDEF'), new Map());
+console.log(`Success: ${success}`);
