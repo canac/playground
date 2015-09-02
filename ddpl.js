@@ -13,10 +13,12 @@ function serializeLiteral(literal) {
   return `${literal.value ? '' : '!'}${literal.symbol}`;
 }
 
+function serializeClause(literals) {
+  return [...literals].map(literal => serializeLiteral(literal)).join(' | ');
+}
+
 function serializeClauses(clauses) {
-  return [...clauses].map(literals =>
-    `(${[...literals].map(literal => serializeLiteral(literal)).join(' | ')})`
-  ).join(' & ');
+  return [...clauses].map(literals => `(${serializeClause(literals)})`).join(' & ');
 }
 
 function firstRest(first, ...rest) {
